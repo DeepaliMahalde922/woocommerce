@@ -136,6 +136,13 @@ function wc_delete_product_transients( $post_id = 0 ) {
 		delete_transient( $transient );
 	}
 
+	if ( 'variable' === $product->get_type() ) {
+		wp_cache_delete(
+			WC_Cache_Helper::get_cache_prefix( 'products' ) . 'product_variation_attributes_' . $product->get_id(),
+			'products'
+		);
+	}
+
 	// Increments the transient version to invalidate cache.
 	WC_Cache_Helper::get_transient_version( 'product', true );
 
